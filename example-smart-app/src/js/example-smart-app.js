@@ -77,20 +77,23 @@
 
         $.when(pt, allergyIntolerance).done(function(patient, allergyIntolerance) {
 
-            var str = "";
+            var str = "<table>";
             console.log(allergyIntolerance);
 
             allergyIntolerance.forEach(function(item, index) {
-                str += index + ". ";
-                str += item?.clinicalStatus?.coding[0]?.display + "<br/>";
-                str += item?.code?.text + "<br/>";
-                if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
-                     str += item?.reaction[0]?.manifestation[0] + "<br/>";
-
+                
+                if (item?.clinicalStatus?.coding[0]?.display !== undefined) {
+                    str += "<tr><td>" +(index+1) + "</td>";
+                    str += "<td>" + item?.clinicalStatus?.coding[0]?.display + "</td>";
+                    str += "<td>" + item?.code?.text + "</td>";
+                    if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
+                        str += "<td>" + item?.reaction[0]?.manifestation[0].text + "</td></tr>";
+                }
             });
+            str += "</table>";
 
             p.allergies = str;
-          console.log(str);
+            console.log(str);
             ret.resolve(p);
         });
 
