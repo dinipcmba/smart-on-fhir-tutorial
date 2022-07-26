@@ -126,7 +126,7 @@
       ldl: {value: ''},
       hdl: {value: ''},
       temperature: {value: ''},
-      allergies: {value: ''}
+      
     };
   }
 
@@ -171,7 +171,11 @@
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
     $('#temperature').html(p.temperature);
-    $('#allergies').html(a.allergies);
+    
   };
 
+  window.drawVisualization = function(a) {
+
+    $('#allergies').html(a.allergies);
+  }
 })(window);
