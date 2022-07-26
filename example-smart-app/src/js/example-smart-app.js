@@ -25,7 +25,12 @@
                     }
                   });
         
+        var allergyIntolerance = smart.patient.api.fetchAll({
+                    type: 'AllergyIntolerance',
+                  });
+        
         $.when(pt, obv).fail(onError);
+        $.when(pt, allergyIntolerance).fail(onError);
 
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
@@ -67,6 +72,26 @@
 
           ret.resolve(p);
         });
+
+        $.when(pt, allergyIntolerance).done(function(patient, allergyIntolerance) {
+
+            var str = "";
+            console.log(allergyIntolerance);
+
+            // allergyIntolerance.forEach(function(item, index) {
+            //     str += index + ".";
+            //     str += item.clinicalStatus + " ";
+            //     str += item.code;
+            //     //str += item.reaction;
+
+            // });
+
+            // p.allergies = str;
+            // ret.resolve(p);
+        });
+
+
+
       } else {
         onError();
       }
@@ -88,7 +113,8 @@
       diastolicbp: {value: ''},
       ldl: {value: ''},
       hdl: {value: ''},
-      temperature: {value: ''}
+      temperature: {value: ''},
+      allergies: {value: ''}
     };
   }
 
@@ -133,7 +159,7 @@
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
     $('#temperature').html(p.temperature);
-    
+    $('#allergies').html(p.allergies);
   };
 
 })(window);
