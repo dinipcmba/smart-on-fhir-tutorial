@@ -74,9 +74,11 @@
           var str = "<table>";
           console.log(allergyIntolerance);
 
+          var loopVariable = 1;
+          
           allergyIntolerance.forEach(function(item, index) {
 
-              var loopVariable = 1;
+              
 
               if (item?.clinicalStatus?.coding[0]?.display !== undefined) {
                   str += "<tr><td>" +(loopVariable++) + "</td>";
