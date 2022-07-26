@@ -84,7 +84,7 @@
                 str += index + ". ";
                 str += item?.clinicalStatus?.coding[0]?.display + "<br/>";
                 str += item?.code?.text + "<br/>";
-                if (item?.reaction[0])
+                if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
                      str += item?.reaction[0]?.manifestation[0] + "<br/>";
 
             });
