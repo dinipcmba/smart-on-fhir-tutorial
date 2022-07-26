@@ -76,15 +76,16 @@
 
           allergyIntolerance.forEach(function(item, index) {
 
-              var loopVariable= 1;
+              var loopVariable = 1;
 
               if (item?.clinicalStatus?.coding[0]?.display !== undefined) {
-                  str += "<tr><td>" +(loopVariable) + "</td>";
+                  str += "<tr><td>" +(loopVariable++) + "</td>";
+                  
                   str += "<td>" + item?.clinicalStatus?.coding[0]?.display + "</td>";
                   str += "<td>" + item?.code?.text + "</td>";
                   if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
                       str += "<td>" + item?.reaction[0]?.manifestation[0].text + "</td></tr>";
-                loopVariable++;
+                
               }
           });
           str += "</table>";
