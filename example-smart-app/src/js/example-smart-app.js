@@ -32,6 +32,8 @@
         $.when(pt, obv).fail(onError);
         $.when(pt, allergyIntolerance).fail(onError);
 
+        var p = defaultPatient();
+
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
@@ -51,7 +53,7 @@
           var ldl = byCodes('2089-1');
           var temperature = byCodes('8310-5');
 
-          var p = defaultPatient();
+          
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
@@ -78,16 +80,17 @@
             var str = "";
             console.log(allergyIntolerance);
 
-            // allergyIntolerance.forEach(function(item, index) {
-            //     str += index + ".";
-            //     str += item.clinicalStatus + " ";
-            //     str += item.code;
-            //     //str += item.reaction;
+            allergyIntolerance.forEach(function(item, index) {
+                str += index + ". ";
+                str += item?.clinicalStatus?.coding[0]?.display + "<br/>";
+                str += item?.code?.text + "<br/>";
+                str += item?.reaction[0]?.manifestation[0] + "<br/>";
 
-            // });
+            });
 
-            // p.allergies = str;
-            // ret.resolve(p);
+            p.allergies = str;
+          console.log(str);
+            ret.resolve(p);
         });
 
 
