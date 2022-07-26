@@ -73,7 +73,7 @@
           p.ldl = getQuantityValueAndUnit(ldl[0]);
           p.temperature = getQuantityValueAndUnit(temperature[0]);
 
-          ret.resolve(p);
+          //ret.resolve(p);
         });
 
         $.when(pt, allergyIntolerance).done(function(patient, allergyIntolerance) {
@@ -93,13 +93,13 @@
             });
             str += "</table>";
 
-            var a = {
-                allergies: {value: ''}
-            }
+            // var a = {
+            //     allergies: {value: ''}
+            // }
 
-            a.allergies = str;
+            p.allergies = str;
             console.log(str);
-            ret.resolve(a);
+            ret.resolve(p);
         });
 
 
@@ -126,7 +126,7 @@
       ldl: {value: ''},
       hdl: {value: ''},
       temperature: {value: ''},
-      
+      allergies: {value: ''}
     };
   }
 
@@ -171,11 +171,8 @@
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
     $('#temperature').html(p.temperature);
-    
+    $('#allergies').html(p.allergies);
   };
 
-  window.drawVisualization = function(a) {
 
-    $('#allergies').html(a.allergies);
-  }
 })(window);
