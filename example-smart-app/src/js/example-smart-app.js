@@ -29,12 +29,9 @@
                     type: 'AllergyIntolerance',
                   });
         
-        $.when(pt, obv).fail(onError);
-        $.when(pt, allergyIntolerance).fail(onError);
+        $.when(pt, obv, allergyIntolerance).fail(onError);
 
-       var p = defaultPatient();
-
-        $.when(pt, obv).done(function(patient, obv) {
+        $.when(pt, obv, allergyIntolerance).done(function(patient, obv, allergyIntolerance) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
 
@@ -53,7 +50,7 @@
           var ldl = byCodes('2089-1');
           var temperature = byCodes('8310-5');
 
-          //var p = defaultPatient();
+          var p = defaultPatient();
           
           p.birthdate = patient.birthDate;
           p.gender = gender;
@@ -73,35 +70,30 @@
           p.ldl = getQuantityValueAndUnit(ldl[0]);
           p.temperature = getQuantityValueAndUnit(temperature[0]);
 
-          //ret.resolve(p);
-        });
 
-        $.when(pt, allergyIntolerance).done(function(patient, allergyIntolerance) {
+          var str = "<table>";
+          console.log(allergyIntolerance);
 
-            var str = "<table>";
-            console.log(allergyIntolerance);
+          allergyIntolerance.forEach(function(item, index) {
+              
+              if (item?.clinicalStatus?.coding[0]?.display !== undefined) {
+                  str += "<tr><td>" +(index+1) + "</td>";
+                  str += "<td>" + item?.clinicalStatus?.coding[0]?.display + "</td>";
+                  str += "<td>" + item?.code?.text + "</td>";
+                  if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
+                      str += "<td>" + item?.reaction[0]?.manifestation[0].text + "</td></tr>";
+              }
+          });
+          str += "</table>";
 
-            allergyIntolerance.forEach(function(item, index) {
-                
-                if (item?.clinicalStatus?.coding[0]?.display !== undefined) {
-                    str += "<tr><td>" +(index+1) + "</td>";
-                    str += "<td>" + item?.clinicalStatus?.coding[0]?.display + "</td>";
-                    str += "<td>" + item?.code?.text + "</td>";
-                    if (item?.reaction && item?.reaction[0] && item?.reaction[0]?.manifestation && item?.reaction[0]?.manifestation[0])
-                        str += "<td>" + item?.reaction[0]?.manifestation[0].text + "</td></tr>";
-                }
-            });
-            str += "</table>";
-
-            // var a = {
-            //     allergies: {value: ''}
-            // }
-
-            p.allergies = str;
+          p.allergies = str;
             console.log(str);
             ret.resolve(p);
+
+          ret.resolve(p);
         });
 
+        
 
 
       } else {
