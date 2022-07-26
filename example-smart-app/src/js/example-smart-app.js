@@ -32,7 +32,7 @@
         $.when(pt, obv).fail(onError);
         $.when(pt, allergyIntolerance).fail(onError);
 
-       
+       var p = defaultPatient();
 
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
@@ -53,7 +53,7 @@
           var ldl = byCodes('2089-1');
           var temperature = byCodes('8310-5');
 
-          var p = defaultPatient();
+          //var p = defaultPatient();
           
           p.birthdate = patient.birthDate;
           p.gender = gender;
